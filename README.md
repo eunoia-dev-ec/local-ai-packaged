@@ -1,4 +1,4 @@
-# Self-hosted AI Packageeeeeeeeee
+# Self-hosted AI Package
 
 **Self-hosted AI Package** is an open, docker compose template that
 quickly bootstraps a fully featured Local AI and Low Code development
