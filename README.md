@@ -57,6 +57,10 @@ Before running the services, you need to set up your environment variables:
    ############
    EVOLUTION_API_KEY=your-evolution-api-key
    WEBHOOK_GLOBAL_URL=your-webhook-url
+   
+   # Optional Redis authentication
+   REDIS_USERNAME=
+   REDIS_PASSWORD=
    ```
 
 For production deployments, uncomment and configure these additional variables:
@@ -140,6 +144,14 @@ Here are solutions to common issues:
 
 - **Evolution API Connection**: Ensure your Evolution API key is correctly set in the .env file.
 - **QR Code Scanning**: Follow the Evolution API documentation to properly connect WhatsApp devices.
+
+### Redis Connection Issues
+
+- **n8n Redis Credentials**: When setting up Redis credentials in n8n, use the values from your .env file:
+  - Host: `redis`
+  - Port: `6379`
+  - Username: Value of `REDIS_USERNAME` (leave empty if not using authentication)
+  - Password: Value of `REDIS_PASSWORD` (leave empty if not using authentication)
 
 ## 📜 License
 

@@ -21,6 +21,10 @@ x-n8n: &service-n8n
     - WEBHOOK_URL=${N8N_HOSTNAME:+https://}${N8N_HOSTNAME:-http://localhost:5678}
     - EVOLUTION_API_HOST=${EVOLUTION_API_HOST:-http://evolution-api:8080}
     - EVOLUTION_API_KEY=${EVOLUTION_API_KEY:-your-api-key}
+    - REDIS_HOST=redis
+    - REDIS_PORT=6379
+    - REDIS_USERNAME=${REDIS_USERNAME:-}
+    - REDIS_PASSWORD=${REDIS_PASSWORD:-}
 
 services:
   n8n-import:
@@ -74,7 +78,11 @@ services:
   redis:
     container_name: redis
     image: docker.io/valkey/valkey:8-alpine
-    command: valkey-server --save 30 1 --loglevel warning
+    command: >
+      valkey-server
+      ${REDIS_PASSWORD:+--requirepass $REDIS_PASSWORD}
+      ${REDIS_USERNAME:+--user $REDIS_USERNAME $REDIS_PASSWORD}
+      --save 30 1 --loglevel warning
     restart: unless-stopped  
     ports:
       - 6379:6379
@@ -124,7 +132,7 @@ services:
       
       # Redis Configuration
       - CACHE_REDIS_ENABLED=${CACHE_REDIS_ENABLED:-true}
-      - CACHE_REDIS_URI=redis://redis:6379
+      - CACHE_REDIS_URI=redis://${REDIS_USERNAME:+$REDIS_USERNAME:$REDIS_PASSWORD@}${REDIS_USERNAME:-${REDIS_PASSWORD:+:$REDIS_PASSWORD@}}redis:6379
       - CACHE_REDIS_PREFIX_KEY=${CACHE_REDIS_PREFIX_KEY:-evolution}
       - CACHE_REDIS_TTL=${CACHE_REDIS_TTL:-604800}
       - CACHE_REDIS_SAVE_INSTANCES=${CACHE_REDIS_SAVE_INSTANCES:-true}
