@@ -56,7 +56,8 @@ Before running the services, you need to set up your environment variables:
    # Evolution API Configuration
    ############
    EVOLUTION_API_KEY=your-evolution-api-key
-   WEBHOOK_GLOBAL_URL=your-webhook-url
+   WEBHOOK_GLOBAL_URL=
+   WEBHOOK_GLOBAL_ENABLED=false
    
    # WhatsApp display configuration
    CONFIG_SESSION_PHONE_CLIENT=EvolutionAPI
@@ -126,6 +127,20 @@ Evolution API allows you to configure how the WhatsApp connection appears on you
 
 This helps identify your automation connection in the WhatsApp connected devices list.
 
+### Setting Up WhatsApp Webhooks
+
+Evolution API can send real-time notifications to n8n when WhatsApp events occur (such as receiving messages):
+
+1. **Create a webhook node in n8n**:
+
+2. **Configure the webhook URL**: In your evolution api manager
+
+3. **Process WhatsApp events**:
+   - Messages will arrive in JSON format with event data
+   - You can add conditional nodes to handle different types of events 
+   - Connect your webhook to other n8n nodes for automating responses
+
+
 ## Upgrading
 
 To update all containers to their latest versions, run:
@@ -192,7 +207,7 @@ To verify that all services are properly connected and accessible from n8n:
 | Redis | `redis:6379` | Username: REDIS_USERNAME, Password: REDIS_PASSWORD |
 | Qdrant | `http://qdrant:6333` | None by default |
 | Ollama | `http://ollama:11434` | None by default |
-| Evolution API | `http://evolution-api:8080` | apikey: EVOLUTION_API_KEY<br>Display Names: CONFIG_SESSION_PHONE_CLIENT, CONFIG_SESSION_PHONE_NAME |
+| Evolution API | `http://evolution-api:8080` | apikey: EVOLUTION_API_KEY<br>Display Names: CONFIG_SESSION_PHONE_CLIENT, CONFIG_SESSION_PHONE_NAME<br>Webhook: WEBHOOK_GLOBAL_URL, WEBHOOK_GLOBAL_ENABLED |
 
 ## 📜 License
 
