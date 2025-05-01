@@ -58,6 +58,10 @@ Before running the services, you need to set up your environment variables:
    EVOLUTION_API_KEY=your-evolution-api-key
    WEBHOOK_GLOBAL_URL=your-webhook-url
    
+   # WhatsApp display configuration
+   CONFIG_SESSION_PHONE_CLIENT=EvolutionAPI
+   CONFIG_SESSION_PHONE_NAME=Chrome
+   
    # Optional Redis authentication
    REDIS_USERNAME=
    REDIS_PASSWORD=
@@ -113,6 +117,15 @@ To create a WhatsApp integration workflow in n8n:
 
 3. Test your workflow with Evolution API
 
+### WhatsApp Client Display Name Configuration
+
+Evolution API allows you to configure how the WhatsApp connection appears on your smartphone:
+
+- `CONFIG_SESSION_PHONE_CLIENT`: The client name shown in WhatsApp connection info (default: "EvolutionAPI")
+- `CONFIG_SESSION_PHONE_NAME`: The browser name shown in WhatsApp connection info (default: "Chrome")
+
+This helps identify your automation connection in the WhatsApp connected devices list.
+
 ## Upgrading
 
 To update all containers to their latest versions, run:
@@ -152,6 +165,34 @@ Here are solutions to common issues:
   - Port: `6379`
   - Username: Value of `REDIS_USERNAME` (leave empty if not using authentication)
   - Password: Value of `REDIS_PASSWORD` (leave empty if not using authentication)
+
+## Testing Service Connections
+
+To verify that all services are properly connected and accessible from n8n:
+
+1. Import the `Test_Service_Connections.json` workflow from the `n8n-tool-workflows` directory
+2. Set up the required credentials:
+   - **Postgres**: Host: `db`, Port: `5432`, Database: `postgres`, User: `postgres`, Password: your `POSTGRES_PASSWORD`
+   - **Redis**: Host: `redis`, Port: `6379`, Optional Username/Password from your .env file
+3. Run the workflow to test connections to:
+   - PostgreSQL database
+   - Redis
+   - Qdrant vector store
+   - Ollama model server
+   - Evolution API
+   - Supabase API (via Kong)
+4. The workflow will aggregate results and show which services are accessible
+
+### Individual Service Connection Details
+
+| Service | Access From n8n | Credentials |
+|---------|----------------|-------------|
+| PostgreSQL | `db:5432` | User: postgres, Password: POSTGRES_PASSWORD |
+| Supabase API | `http://kong:8000/rest/v1/` | apikey: ANON_KEY, Authorization: Bearer ANON_KEY |
+| Redis | `redis:6379` | Username: REDIS_USERNAME, Password: REDIS_PASSWORD |
+| Qdrant | `http://qdrant:6333` | None by default |
+| Ollama | `http://ollama:11434` | None by default |
+| Evolution API | `http://evolution-api:8080` | apikey: EVOLUTION_API_KEY<br>Display Names: CONFIG_SESSION_PHONE_CLIENT, CONFIG_SESSION_PHONE_NAME |
 
 ## 📜 License
 

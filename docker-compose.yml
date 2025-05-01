@@ -122,6 +122,8 @@ services:
       - LOG_LEVEL=${LOG_LEVEL:-ERROR}
       - WEBHOOK_GLOBAL_URL=${WEBHOOK_GLOBAL_URL:-""}
       - WEBHOOK_GLOBAL_ENABLED=${WEBHOOK_GLOBAL_ENABLED:-false}
+      - CONFIG_SESSION_PHONE_CLIENT=${CONFIG_SESSION_PHONE_CLIENT:-EvolutionAPI}
+      - CONFIG_SESSION_PHONE_NAME=${CONFIG_SESSION_PHONE_NAME:-Chrome}
       
       # Database Configuration - Using Supabase PostgreSQL with Separate Schema
       - DATABASE_ENABLED=true
